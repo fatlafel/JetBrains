@@ -18,8 +18,4 @@ public class InputService {
         return this.scanner.next();
     }
 
-    public int getIntInput(){
-        return this.scanner.nextInt();
-    }
-
 }

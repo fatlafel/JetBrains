@@ -1,81 +1,95 @@
 package tictactoe.Engine;
 
-import java.util.InputMismatchException;
-
-import tictactoe.Interfaces.IEngine;
 import tictactoe.Service.BoardService;
 
+import java.util.InputMismatchException;
 
-public class Engine implements IEngine {
+public class Engine {
 
-    BoardService controller = new BoardService();
     public static int turn = 0;
+    private final BoardService service;
 
+    /**
+     * Instances the service class, populates an empty board and draws it for the user.
+     * While the game is running, displays the turn count, makes a move, draws the updated board and checks the result.
+     * When the game ends, it prints the ending result.
+     */
     public Engine() {
+        service = new BoardService();
         populateBoard();
         drawBoard();
-        while (controller.isRunning()) {
+        while (service.isRunning()) {
+            displayTurnCount();
             move();
             drawBoard();
-            controller.checkResult();
+            service.checkResult();
         }
-        System.out.println(controller.getResult());
+        service.printResult();
 
     }
 
+    /**
+     * Draws the board
+     */
     public void drawBoard() {
 
         System.out.println("---------");
-        System.out.println("|" + ' ' + controller.getBoard().getBoard()[0][0] + ' '
-                + controller.getBoard().getBoard()[0][1] + ' '
-                + controller.getBoard().getBoard()[0][2] + ' ' + "|");
-        System.out.println("|" + ' ' + controller.getBoard().getBoard()[1][0] + ' '
-                + controller.getBoard().getBoard()[1][1] + ' '
-                + controller.getBoard().getBoard()[1][2] + ' ' + "|");
-        System.out.println("|" + ' ' + controller.getBoard().getBoard()[2][0] + ' '
-                + controller.getBoard().getBoard()[2][1] + ' '
-                + controller.getBoard().getBoard()[2][2] + ' ' + "|");
+        System.out.println("|" + ' ' + service.getBoard().getBoard()[0][0] + ' '
+                + service.getBoard().getBoard()[0][1] + ' '
+                + service.getBoard().getBoard()[0][2] + ' ' + "|");
+        System.out.println("|" + ' ' + service.getBoard().getBoard()[1][0] + ' '
+                + service.getBoard().getBoard()[1][1] + ' '
+                + service.getBoard().getBoard()[1][2] + ' ' + "|");
+        System.out.println("|" + ' ' + service.getBoard().getBoard()[2][0] + ' '
+                + service.getBoard().getBoard()[2][1] + ' '
+                + service.getBoard().getBoard()[2][2] + ' ' + "|");
         System.out.println("---------");
 
     }
 
-    public void populateBoard(){
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                controller.getBoard().getBoard()[i][j] = '_';
+    /**
+     * Populates an empty board.
+     */
+    public void populateBoard() {
+        for ( int i = 0; i < 3; i++ ) {
+            for ( int j = 0; j < 3; j++ ) {
+                service.getBoard().getBoard()[i][j] = '_';
             }
         }
     }
 
+    /**
+     * If the input is correct, it makes a move and updates the turn count.
+     */
     public void move() {
-
         int x;
         int y;
         while (true) {
-
             try {
-
                 System.out.print("Enter the coordinates: ");
-                x = Integer.parseInt(controller.getInput().getStringInput());
-                y = Integer.parseInt(controller.getInput().getStringInput());
-
+                x = Integer.parseInt(service.getInput().getStringInput());
+                y = Integer.parseInt(service.getInput().getStringInput());
             } catch (NumberFormatException | InputMismatchException ex) {
                 System.out.println("You should enter numbers!");
                 continue;
             }
-
-            if (controller.isCoordinateWithinRange(x, y)) {
+            if ( service.isCoordinateWithinRange(x, y) ) {
                 System.out.println("Coordinates should be from 1 to 3!");
-
-            } else if (controller.isCellOccupied(x, y)) {
+            } else if ( service.isCellOccupied(x, y) ) {
                 System.out.println("This cell is occupied! Choose another one!");
             } else {
-                controller.getBoard().getBoard()[x - 1][y - 1] = controller.setPlayer();
+                service.getBoard().getBoard()[x - 1][y - 1] = service.setPlayer();
                 turn++;
                 break;
-
             }
 
         }
+    }
+
+    /**
+     * Displays the turn count.
+     */
+    public void displayTurnCount() {
+        System.out.println("Turn: " + turn);
     }
 }

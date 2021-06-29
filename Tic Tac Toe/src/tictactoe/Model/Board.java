@@ -13,27 +13,8 @@ public class Board {
         board = new char[row][column];
     }
 
-    public static int getRow() {
-        return row;
-    }
-
-    public static int getColumn() {
-        return column;
-    }
-
-    public static char getPlayerX() {
-        return PLAYER_X;
-    }
-
-    public static char getPlayerO() {
-        return PLAYER_O;
-    }
-
     public char[][] getBoard() {
         return board;
     }
 
-    public void setBoard(char[][] board) {
-        this.board = board;
-    }
 }
