@@ -117,18 +117,6 @@ public class CinemaService {
         return seat.row <= rows / 2;
     }
 
-    private int getFrontRows(int roomRows) {
-        int frontRows;
-
-        if ( roomRows % 2 == 0 ) {
-            frontRows = roomRows / 2;
-        } else {
-            frontRows = (roomRows - 1) / 2;
-        }
-        return frontRows;
-    }
-
-
     public void setUserCoords(Seat seat) throws SeatAlreadyTakenException {
         if ( isSeatTaken(seat) ) {
             throw new SeatAlreadyTakenException();
